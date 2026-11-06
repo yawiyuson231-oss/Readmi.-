@@ -1,0 +1,12 @@
+{
+  "name": "minicut",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MiniCut — a CapCut-style video editor that runs entirely in the browser",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "serve": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "check": "node --check js/app.js && node --check js/state.js && node --check js/media.js && node --check js/preview.js && node --check js/timeline.js && node --check js/panels.js && node --check js/exporter.js"
+  }
+}

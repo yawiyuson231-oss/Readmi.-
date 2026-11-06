@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniCut — Video Editor in your Browser</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="logo">&#9986;</span> MiniCut <span class="tag">browser video editor</span></div>
+  <div class="actions">
+    <button id="importBtn" class="btn">&#65291; Import video</button>
+    <button id="demoBtn" class="btn ghost" title="Generate a 5&#8209;second test clip">&#10024; Demo clip</button>
+    <button id="exportBtn" class="btn primary">Export &#11015;</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section id="stage" class="stage">
+    <div class="canvas-wrap">
+      <canvas id="preview" width="1280" height="720"></canvas>
+      <div class="drop-hint" id="dropHint">Drop video files here</div>
+    </div>
+    <div class="transport">
+      <button id="playBtn" class="btn round" title="Play / pause (Space)">&#9654;</button>
+      <button id="toStartBtn" class="btn round" title="Back to start">&#9198;</button>
+      <span class="time"><b id="timeNow">00:00.0</b> / <span id="timeTotal">00:00.0</span></span>
+      <span class="hint">Drop files anywhere &middot; Space = play/pause &middot; Del = remove selection &middot; drag text on the canvas</span>
+    </div>
+  </section>
+
+  <aside class="sidebar">
+    <nav class="tabs">
+      <button class="tab active" data-tab="clip">Clip</button>
+      <button class="tab" data-tab="text">Text</button>
+    </nav>
+
+    <div class="pane" id="pane-clip">
+      <h3 id="clipName">No clip selected</h3>
+
+      <div class="group">
+        <label>Filter presets</label>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="group">
+        <label>Adjust</label>
+        <div class="slider"><span>Brightness</span><input type="range" id="f-brightness" min="0.2" max="2" step="0.01"><output id="o-brightness"></output></div>
+        <div class="slider"><span>Contrast</span><input type="range" id="f-contrast" min="0.2" max="2" step="0.01"><output id="o-contrast"></output></div>
+        <div class="slider"><span>Saturation</span><input type="range" id="f-saturate" min="0" max="2.5" step="0.01"><output id="o-saturate"></output></div>
+        <div class="slider"><span>Hue</span><input type="range" id="f-hue" min="-180" max="180" step="1"><output id="o-hue"></output></div>
+        <div class="slider"><span>Blur</span><input type="range" id="f-blur" min="0" max="20" step="0.1"><output id="o-blur"></output></div>
+        <div class="slider"><span>B&amp;W</span><input type="range" id="f-grayscale" min="0" max="1" step="0.01"><output id="o-grayscale"></output></div>
+        <div class="slider"><span>Sepia</span><input type="range" id="f-sepia" min="0" max="1" step="0.01"><output id="o-sepia"></output></div>
+      </div>
+
+      <div class="group">
+        <label>Speed</label>
+        <select id="speedSel">
+          <option value="0.25">0.25&times;</option>
+          <option value="0.5">0.5&times;</option>
+          <option value="1" selected>1&times;</option>
+          <option value="1.5">1.5&times;</option>
+          <option value="2">2&times;</option>
+          <option value="4">4&times;</option>
+        </select>
+        <p class="note">Speed changes clip length on the timeline.</p>
+      </div>
+    </div>
+
+    <div class="pane hidden" id="pane-text">
+      <button id="addTextBtn" class="btn block">&#65291; Add text overlay</button>
+      <div id="textList"></div>
+    </div>
+  </aside>
+</main>
+
+<footer class="timeline">
+  <div class="tl-toolbar">
+    <span class="tl-title">Timeline</span>
+    <label class="zoom">Zoom <input type="range" id="zoom" min="10" max="120" step="5" value="40"></label>
+  </div>
+  <div class="tl-scroll" id="tlScroll">
+    <div class="tl-inner" id="tlInner">
+      <div class="ruler" id="ruler"></div>
+      <div class="track" id="clipsTrack"></div>
+      <div class="track texts" id="textsTrack"></div>
+      <div class="playhead" id="playhead"></div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal hidden" id="exportModal">
+  <div class="modal-card">
+    <h2 id="exportTitle">Exporting&hellip;</h2>
+    <p id="exportStatus"></p>
+    <div class="progress"><div id="exportBar"></div></div>
+    <video id="exportVideo" controls class="hidden"></video>
+    <div class="modal-actions">
+      <a id="exportDownload" class="btn primary hidden" download="minicut-export.webm">Download .webm</a>
+      <button id="exportClose" class="btn ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="video/*" multiple hidden>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
